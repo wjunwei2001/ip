@@ -78,12 +78,109 @@ public class Pallo {
                     System.out.println("    ____________________________________________________________");
                     System.out.println();
                 }
-            } else {
+            } else if (trimmedInput.toLowerCase().startsWith("todo ")) {
                 if (taskCount < 100) {
-                    tasks[taskCount] = new Task(trimmedInput);
+                    String description = trimmedInput.substring(5).trim();
+                    if (description.isEmpty()) {
+                        System.out.println("    ____________________________________________________________");
+                        System.out.println("     Oops! The description of a todo cannot be empty.");
+                        System.out.println("    ____________________________________________________________");
+                        System.out.println();
+                    } else {
+                        tasks[taskCount] = new Todo(description);
+                        taskCount++;
+                        System.out.println("    ____________________________________________________________");
+                        System.out.println("     Got it. I've added this task:");
+                        System.out.println("       " + tasks[taskCount - 1]);
+                        System.out.println("     Now you have " + taskCount + " tasks in the list.");
+                        System.out.println("    ____________________________________________________________");
+                        System.out.println();
+                    }
+                } else {
+                    System.out.println("    ____________________________________________________________");
+                    System.out.println("     Sorry, I can only store up to 100 tasks!");
+                    System.out.println("    ____________________________________________________________");
+                    System.out.println();
+                }
+            } else if (trimmedInput.toLowerCase().startsWith("deadline ")) {
+                if (taskCount < 100) {
+                    String rest = trimmedInput.substring(9).trim();
+                    int byIndex = rest.toLowerCase().indexOf(" /by ");
+                    if (byIndex == -1) {
+                        System.out.println("    ____________________________________________________________");
+                        System.out.println("     Oops! Please use the format: deadline <description> /by <date>");
+                        System.out.println("    ____________________________________________________________");
+                        System.out.println();
+                    } else {
+                        String description = rest.substring(0, byIndex).trim();
+                        String by = rest.substring(byIndex + 5).trim();
+                        if (description.isEmpty() || by.isEmpty()) {
+                            System.out.println("    ____________________________________________________________");
+                            System.out.println("     Oops! Description and date cannot be empty.");
+                            System.out.println("    ____________________________________________________________");
+                            System.out.println();
+                        } else {
+                            tasks[taskCount] = new Deadline(description, by);
+                            taskCount++;
+                            System.out.println("    ____________________________________________________________");
+                            System.out.println("     Got it. I've added this task:");
+                            System.out.println("       " + tasks[taskCount - 1]);
+                            System.out.println("     Now you have " + taskCount + " tasks in the list.");
+                            System.out.println("    ____________________________________________________________");
+                            System.out.println();
+                        }
+                    }
+                } else {
+                    System.out.println("    ____________________________________________________________");
+                    System.out.println("     Sorry, I can only store up to 100 tasks!");
+                    System.out.println("    ____________________________________________________________");
+                    System.out.println();
+                }
+            } else if (trimmedInput.toLowerCase().startsWith("event ")) {
+                if (taskCount < 100) {
+                    String rest = trimmedInput.substring(6).trim();
+                    int fromIndex = rest.toLowerCase().indexOf(" /from ");
+                    int toIndex = rest.toLowerCase().indexOf(" /to ");
+                    if (fromIndex == -1 || toIndex == -1 || toIndex <= fromIndex) {
+                        System.out.println("    ____________________________________________________________");
+                        System.out.println("     Oops! Please use the format: event <description> /from <start> /to <end>");
+                        System.out.println("    ____________________________________________________________");
+                        System.out.println();
+                    } else {
+                        String description = rest.substring(0, fromIndex).trim();
+                        String from = rest.substring(fromIndex + 7, toIndex).trim();
+                        String to = rest.substring(toIndex + 5).trim();
+                        if (description.isEmpty() || from.isEmpty() || to.isEmpty()) {
+                            System.out.println("    ____________________________________________________________");
+                            System.out.println("     Oops! Description, start time, and end time cannot be empty.");
+                            System.out.println("    ____________________________________________________________");
+                            System.out.println();
+                        } else {
+                            tasks[taskCount] = new Event(description, from, to);
+                            taskCount++;
+                            System.out.println("    ____________________________________________________________");
+                            System.out.println("     Got it. I've added this task:");
+                            System.out.println("       " + tasks[taskCount - 1]);
+                            System.out.println("     Now you have " + taskCount + " tasks in the list.");
+                            System.out.println("    ____________________________________________________________");
+                            System.out.println();
+                        }
+                    }
+                } else {
+                    System.out.println("    ____________________________________________________________");
+                    System.out.println("     Sorry, I can only store up to 100 tasks!");
+                    System.out.println("    ____________________________________________________________");
+                    System.out.println();
+                }
+            } else {
+                // For backward compatibility, treat plain text as Todo
+                if (taskCount < 100) {
+                    tasks[taskCount] = new Todo(trimmedInput);
                     taskCount++;
                     System.out.println("    ____________________________________________________________");
-                    System.out.println("     added: " + trimmedInput);
+                    System.out.println("     Got it. I've added this task:");
+                    System.out.println("       " + tasks[taskCount - 1]);
+                    System.out.println("     Now you have " + taskCount + " tasks in the list.");
                     System.out.println("    ____________________________________________________________");
                     System.out.println();
                 } else {
