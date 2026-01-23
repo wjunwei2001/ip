@@ -24,12 +24,18 @@ public class Parser {
             return new Command(CommandType.BYE, null);
         } else if (lowerInput.equals(COMMAND_LIST)) {
             return new Command(CommandType.LIST, null);
+        } else if (lowerInput.equals(COMMAND_MARK)) {
+            throw new PalloException("OH NO!!! Please provide a task number to mark.");
         } else if (lowerInput.startsWith(COMMAND_MARK + " ")) {
             String argument = trimmedInput.substring(COMMAND_MARK.length()).trim();
             return new Command(CommandType.MARK, argument);
+        } else if (lowerInput.equals(COMMAND_UNMARK)) {
+            throw new PalloException("OH NO!!! Please provide a task number to unmark.");
         } else if (lowerInput.startsWith(COMMAND_UNMARK + " ")) {
             String argument = trimmedInput.substring(COMMAND_UNMARK.length()).trim();
             return new Command(CommandType.UNMARK, argument);
+        } else if (lowerInput.equals(COMMAND_DELETE)) {
+            throw new PalloException("OH NO!!! Please provide a task number to delete.");
         } else if (lowerInput.startsWith(COMMAND_DELETE + " ")) {
             String argument = trimmedInput.substring(COMMAND_DELETE.length()).trim();
             return new Command(CommandType.DELETE, argument);
