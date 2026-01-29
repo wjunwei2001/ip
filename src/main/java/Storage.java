@@ -9,15 +9,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Storage {
-    private static final String DATA_DIR = "data";
-    private static final String DATA_FILE = "pallo.txt";
     private final Path filePath;
 
-    public Storage() {
-        this.filePath = Paths.get(DATA_DIR, DATA_FILE);
+    public Storage(String filePath) {
+        this.filePath = Paths.get(filePath);
     }
 
-    public ArrayList<Task> loadTasks() throws PalloException {
+    public ArrayList<Task> load() throws PalloException {
         ArrayList<Task> tasks = new ArrayList<>();
         
         // Create directory if it doesn't exist
@@ -64,7 +62,7 @@ public class Storage {
         return tasks;
     }
 
-    public void saveTasks(ArrayList<Task> tasks) throws PalloException {
+    public void save(ArrayList<Task> tasks) throws PalloException {
         // Create directory if it doesn't exist
         try {
             Files.createDirectories(filePath.getParent());

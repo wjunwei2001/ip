@@ -1,51 +1,49 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Pallo {
-    private TaskList tasks;
-    private Scanner scanner;
     private Storage storage;
+    private TaskList tasks;
+    private Ui ui;
 
-    public Pallo() {
-        this.storage = new Storage();
-        this.scanner = new Scanner(System.in);
+    public Pallo(String filePath) {
+        ui = new Ui();
+        storage = new Storage(filePath);
         try {
-            ArrayList<Task> loadedTasks = storage.loadTasks();
-            this.tasks = new TaskList(loadedTasks);
+            tasks = new TaskList(storage.load());
         } catch (PalloException e) {
-            Ui.showError(e.getMessage());
-            this.tasks = new TaskList(); // Start with empty list if loading fails
+            ui.showLoadingError();
+            tasks = new TaskList();
         }
     }
 
     public void run() {
-        Ui.showWelcome();
+        ui.showWelcome();
         
         while (true) {
             try {
-                String input = scanner.nextLine();
+                String input = ui.readCommand();
                 Command command = Parser.parseCommand(input);
                 
                 if (command.getType() == CommandType.BYE) {
                     persistTasks();
-                    Ui.showGoodbye();
+                    ui.showGoodbye();
                     break;
                 } else {
                     executeCommand(command);
                 }
             } catch (PalloException e) {
-                Ui.showError(e.getMessage());
+                ui.showError(e.getMessage());
             }
         }
         
-        scanner.close();
+        ui.close();
     }
 
     private void executeCommand(Command command) throws PalloException {
         boolean shouldSave = false;
         switch (command.getType()) {
         case LIST:
-            Ui.showTaskList(tasks);
+            ui.showTaskList(tasks);
             break;
         case MARK:
             handleMarkCommand(command);
@@ -84,20 +82,20 @@ public class Pallo {
         int taskNumber = Parser.parseTaskNumber(command.getStringArgument());
         Task task = tasks.getTask(taskNumber - 1);
         task.markAsDone();
-        Ui.showTaskMarked(task, true);
+        ui.showTaskMarked(task, true);
     }
 
     private void handleUnmarkCommand(Command command) throws PalloException {
         int taskNumber = Parser.parseTaskNumber(command.getStringArgument());
         Task task = tasks.getTask(taskNumber - 1);
         task.markAsNotDone();
-        Ui.showTaskMarked(task, false);
+        ui.showTaskMarked(task, false);
     }
 
     private void handleDeleteCommand(Command command) throws PalloException {
         int taskNumber = Parser.parseTaskNumber(command.getStringArgument());
         Task removedTask = tasks.removeTask(taskNumber - 1);
-        Ui.showTaskRemoved(removedTask, tasks.size());
+        ui.showTaskRemoved(removedTask, tasks.size());
     }
 
     private void handleTodoCommand(Command command) throws PalloException {
@@ -107,32 +105,32 @@ public class Pallo {
         }
         Task newTask = new Todo(description);
         tasks.addTask(newTask);
-        Ui.showTaskAdded(newTask, tasks.size());
+        ui.showTaskAdded(newTask, tasks.size());
     }
 
     private void handleDeadlineCommand(Command command) throws PalloException {
         String[] parts = command.getStringArrayArgument();
         Task newTask = new Deadline(parts[0], parts[1]);
         tasks.addTask(newTask);
-        Ui.showTaskAdded(newTask, tasks.size());
+        ui.showTaskAdded(newTask, tasks.size());
     }
 
     private void handleEventCommand(Command command) throws PalloException {
         String[] parts = command.getStringArrayArgument();
         Task newTask = new Event(parts[0], parts[1], parts[2]);
         tasks.addTask(newTask);
-        Ui.showTaskAdded(newTask, tasks.size());
+        ui.showTaskAdded(newTask, tasks.size());
     }
 
     private void persistTasks() {
         try {
-            storage.saveTasks(tasks.getAllTasks());
+            storage.save(tasks.getAllTasks());
         } catch (PalloException e) {
-            Ui.showError("Failed to save tasks: " + e.getMessage());
+            ui.showError("Failed to save tasks: " + e.getMessage());
         }
     }
 
     public static void main(String[] args) {
-        new Pallo().run();
+        new Pallo("data/pallo.txt").run();
     }
 }

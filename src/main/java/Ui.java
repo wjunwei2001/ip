@@ -1,7 +1,22 @@
+import java.util.Scanner;
+
 public class Ui {
     private static final String HORIZONTAL_LINE = "    ____________________________________________________________";
+    private Scanner scanner;
 
-    public static void showWelcome() {
+    public Ui() {
+        this.scanner = new Scanner(System.in);
+    }
+
+    public String readCommand() {
+        return scanner.nextLine();
+    }
+
+    public void close() {
+        scanner.close();
+    }
+
+    public void showWelcome() {
         System.out.println(HORIZONTAL_LINE);
         System.out.println("     Hello! I'm Pallo");
         System.out.println("     What can I do for you?");
@@ -9,27 +24,31 @@ public class Ui {
         System.out.println();
     }
 
-    public static void showGoodbye() {
+    public void showGoodbye() {
         System.out.println(HORIZONTAL_LINE);
         System.out.println("     Bye. I will miss you!");
         System.out.println(HORIZONTAL_LINE);
     }
 
-    public static void showError(String message) {
+    public void showError(String message) {
         System.out.println(HORIZONTAL_LINE);
         System.out.println("     " + message);
         System.out.println(HORIZONTAL_LINE);
         System.out.println();
     }
 
-    public static void showMessage(String message) {
+    public void showLoadingError() {
+        showError("Failed to load tasks. Starting with an empty task list.");
+    }
+
+    public void showMessage(String message) {
         System.out.println(HORIZONTAL_LINE);
         System.out.println("     " + message);
         System.out.println(HORIZONTAL_LINE);
         System.out.println();
     }
 
-    public static void showTaskList(TaskList tasks) {
+    public void showTaskList(TaskList tasks) {
         System.out.println(HORIZONTAL_LINE);
         System.out.println("     Here are the tasks in your list:");
         if (tasks.isEmpty()) {
@@ -48,7 +67,7 @@ public class Ui {
         System.out.println();
     }
 
-    public static void showTaskAdded(Task task, int totalTasks) {
+    public void showTaskAdded(Task task, int totalTasks) {
         System.out.println(HORIZONTAL_LINE);
         System.out.println("     Got it. I've added this task:");
         System.out.println("       " + task);
@@ -57,7 +76,7 @@ public class Ui {
         System.out.println();
     }
 
-    public static void showTaskRemoved(Task task, int remainingTasks) {
+    public void showTaskRemoved(Task task, int remainingTasks) {
         System.out.println(HORIZONTAL_LINE);
         System.out.println("     Noted. I've removed this task:");
         System.out.println("       " + task);
@@ -66,7 +85,7 @@ public class Ui {
         System.out.println();
     }
 
-    public static void showTaskMarked(Task task, boolean isDone) {
+    public void showTaskMarked(Task task, boolean isDone) {
         System.out.println(HORIZONTAL_LINE);
         if (isDone) {
             System.out.println("     Nice! I've marked this task as done:");
