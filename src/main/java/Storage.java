@@ -109,7 +109,13 @@ public class Storage {
                 throw new PalloException("Invalid Deadline format");
             }
             String by = parts[3].trim();
-            task = new Deadline(description, by);
+            // Try to parse as LocalDateTime first, fall back to string
+            java.time.LocalDateTime byDateTime = DateParser.parseDateTimeFromFile(by);
+            if (byDateTime != null) {
+                task = new Deadline(description, byDateTime);
+            } else {
+                task = new Deadline(description, by);
+            }
             break;
         case "E":
             if (parts.length != 5) {
@@ -117,7 +123,14 @@ public class Storage {
             }
             String from = parts[3].trim();
             String to = parts[4].trim();
-            task = new Event(description, from, to);
+            // Try to parse as LocalDateTime first, fall back to string
+            java.time.LocalDateTime fromDateTime = DateParser.parseDateTimeFromFile(from);
+            java.time.LocalDateTime toDateTime = DateParser.parseDateTimeFromFile(to);
+            if (fromDateTime != null && toDateTime != null) {
+                task = new Event(description, fromDateTime, toDateTime);
+            } else {
+                task = new Event(description, from, to);
+            }
             break;
         default:
             throw new PalloException("Unknown task type: " + taskType);
