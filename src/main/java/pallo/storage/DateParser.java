@@ -6,6 +6,11 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+/**
+ * Utility class for parsing and formatting date/time strings.
+ * Supports multiple input formats and provides methods for both display
+ * and file storage formatting.
+ */
 public class DateParser {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final DateTimeFormatter DISPLAY_DATE_FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy");

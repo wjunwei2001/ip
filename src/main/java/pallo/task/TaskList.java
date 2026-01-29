@@ -3,21 +3,45 @@ package pallo.task;
 import java.util.ArrayList;
 import pallo.exception.PalloException;
 
+/**
+ * Manages a collection of tasks.
+ * Provides methods to add, remove, and retrieve tasks from the list.
+ */
 public class TaskList {
     private ArrayList<Task> tasks;
 
+    /**
+     * Constructs an empty TaskList.
+     */
     public TaskList() {
         this.tasks = new ArrayList<>();
     }
 
+    /**
+     * Constructs a TaskList with the given tasks.
+     *
+     * @param tasks The initial list of tasks.
+     */
     public TaskList(ArrayList<Task> tasks) {
         this.tasks = new ArrayList<>(tasks);
     }
 
+    /**
+     * Adds a task to the list.
+     *
+     * @param task The task to add.
+     */
     public void addTask(Task task) {
         tasks.add(task);
     }
 
+    /**
+     * Removes and returns the task at the specified index.
+     *
+     * @param index The zero-based index of the task to remove.
+     * @return The removed task.
+     * @throws PalloException If the index is out of bounds.
+     */
     public Task removeTask(int index) throws PalloException {
         if (index < 0 || index >= tasks.size()) {
             throw new PalloException("OH NO!!! Invalid task number! Please choose a number between 1 and " + tasks.size() + ".");
@@ -25,6 +49,13 @@ public class TaskList {
         return tasks.remove(index);
     }
 
+    /**
+     * Returns the task at the specified index.
+     *
+     * @param index The zero-based index of the task to retrieve.
+     * @return The task at the specified index.
+     * @throws PalloException If the index is out of bounds.
+     */
     public Task getTask(int index) throws PalloException {
         if (index < 0 || index >= tasks.size()) {
             throw new PalloException("OH NO!!! Invalid task number! Please choose a number between 1 and " + tasks.size() + ".");
@@ -40,6 +71,11 @@ public class TaskList {
         return tasks.isEmpty();
     }
 
+    /**
+     * Returns a copy of all tasks in the list.
+     *
+     * @return A new ArrayList containing all tasks.
+     */
     public ArrayList<Task> getAllTasks() {
         return new ArrayList<>(tasks); // Return a copy to prevent external modification
     }

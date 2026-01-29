@@ -3,12 +3,24 @@ package pallo.task;
 import java.time.LocalDateTime;
 import pallo.storage.DateParser;
 
+/**
+ * Represents an event task with a start and end time.
+ * An Event has a description and a time period during which it occurs.
+ */
 public class Event extends Task {
     protected LocalDateTime from;
     protected LocalDateTime to;
     protected String fromString; // Keep original string if parsing failed
     protected String toString; // Keep original string if parsing failed
 
+    /**
+     * Constructs a new Event task with string date/times.
+     * The date strings will be parsed into LocalDateTime if possible.
+     *
+     * @param description The description of the event.
+     * @param from        The start date/time as a string.
+     * @param to          The end date/time as a string.
+     */
     public Event(String description, String from, String to) {
         super(description);
         this.from = DateParser.parseDateTime(from);
@@ -17,6 +29,13 @@ public class Event extends Task {
         this.toString = to; // Keep original string
     }
 
+    /**
+     * Constructs a new Event task with LocalDateTime objects.
+     *
+     * @param description The description of the event.
+     * @param from        The start date/time.
+     * @param to          The end date/time.
+     */
     public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description);
         this.from = from;
@@ -40,10 +59,20 @@ public class Event extends Task {
         return "E | " + statusValue + " | " + getDescription() + " | " + fromStr + " | " + toStr;
     }
 
+    /**
+     * Returns the event start date/time.
+     *
+     * @return The start date/time, or null if not parsed successfully.
+     */
     public LocalDateTime getFrom() {
         return from;
     }
 
+    /**
+     * Returns the event end date/time.
+     *
+     * @return The end date/time, or null if not parsed successfully.
+     */
     public LocalDateTime getTo() {
         return to;
     }
