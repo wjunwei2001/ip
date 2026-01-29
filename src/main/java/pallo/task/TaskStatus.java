@@ -1,3 +1,5 @@
+package pallo.task;
+
 public enum TaskStatus {
     DONE("[X]"),
     NOT_DONE("[ ]");

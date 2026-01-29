@@ -1,4 +1,9 @@
+package pallo.ui;
+
 import java.util.Scanner;
+import pallo.task.Task;
+import pallo.task.TaskList;
+import pallo.exception.PalloException;
 
 public class Ui {
     private static final String HORIZONTAL_LINE = "    ____________________________________________________________";

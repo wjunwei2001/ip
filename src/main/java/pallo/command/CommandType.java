@@ -1,3 +1,5 @@
+package pallo.command;
+
 public enum CommandType {
     BYE,
     LIST,

@@ -1,3 +1,5 @@
+package pallo.command;
+
 public class Command {
     private CommandType type;
     private Object argument;

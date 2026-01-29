@@ -1,4 +1,17 @@
+package pallo;
+
 import java.util.ArrayList;
+import pallo.storage.Storage;
+import pallo.task.TaskList;
+import pallo.task.Task;
+import pallo.task.Todo;
+import pallo.task.Deadline;
+import pallo.task.Event;
+import pallo.ui.Ui;
+import pallo.command.Command;
+import pallo.command.CommandType;
+import pallo.command.Parser;
+import pallo.exception.PalloException;
 
 public class Pallo {
     private Storage storage;

@@ -1,4 +1,7 @@
+package pallo.task;
+
 import java.util.ArrayList;
+import pallo.exception.PalloException;
 
 public class TaskList {
     private ArrayList<Task> tasks;

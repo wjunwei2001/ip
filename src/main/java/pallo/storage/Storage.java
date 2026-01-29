@@ -1,4 +1,5 @@
-import java.io.File;
+package pallo.storage;
+
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -7,6 +8,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
+import pallo.task.Task;
+import pallo.task.TaskStatus;
+import pallo.task.Todo;
+import pallo.task.Deadline;
+import pallo.task.Event;
+import pallo.exception.PalloException;
 
 public class Storage {
     private final Path filePath;
