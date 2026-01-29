@@ -15,13 +15,31 @@ import pallo.task.Deadline;
 import pallo.task.Event;
 import pallo.exception.PalloException;
 
+/**
+ * Handles loading and saving of tasks to a file.
+ * Tasks are persisted in a pipe-delimited text format that includes
+ * task type, status, description, and any date/time fields.
+ */
 public class Storage {
     private final Path filePath;
 
+    /**
+     * Constructs a Storage instance with the specified file path.
+     *
+     * @param filePath The path to the file where tasks will be stored.
+     */
     public Storage(String filePath) {
         this.filePath = Paths.get(filePath);
     }
 
+    /**
+     * Loads tasks from the storage file.
+     * Creates the directory if it doesn't exist. Returns an empty list if
+     * the file doesn't exist. Skips corrupted lines gracefully.
+     *
+     * @return An ArrayList of tasks loaded from the file.
+     * @throws PalloException If there is an error reading the file.
+     */
     public ArrayList<Task> load() throws PalloException {
         ArrayList<Task> tasks = new ArrayList<>();
         
@@ -69,6 +87,13 @@ public class Storage {
         return tasks;
     }
 
+    /**
+     * Saves the given tasks to the storage file.
+     * Creates the directory if it doesn't exist.
+     *
+     * @param tasks The list of tasks to save.
+     * @throws PalloException If there is an error writing to the file.
+     */
     public void save(ArrayList<Task> tasks) throws PalloException {
         // Create directory if it doesn't exist
         try {

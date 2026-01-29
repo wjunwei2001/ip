@@ -5,14 +5,26 @@ import pallo.task.Task;
 import pallo.task.TaskList;
 import pallo.exception.PalloException;
 
+/**
+ * Handles all user interface interactions for the Pallo application.
+ * Responsible for reading user input and displaying messages to the console.
+ */
 public class Ui {
     private static final String HORIZONTAL_LINE = "    ____________________________________________________________";
     private Scanner scanner;
 
+    /**
+     * Constructs a new Ui instance with a Scanner for reading input.
+     */
     public Ui() {
         this.scanner = new Scanner(System.in);
     }
 
+    /**
+     * Reads a line of input from the user.
+     *
+     * @return The user's input as a String.
+     */
     public String readCommand() {
         return scanner.nextLine();
     }
@@ -21,6 +33,9 @@ public class Ui {
         scanner.close();
     }
 
+    /**
+     * Displays the welcome message when the application starts.
+     */
     public void showWelcome() {
         System.out.println(HORIZONTAL_LINE);
         System.out.println("     Hello! I'm Pallo");
@@ -29,12 +44,20 @@ public class Ui {
         System.out.println();
     }
 
+    /**
+     * Displays the goodbye message when the application exits.
+     */
     public void showGoodbye() {
         System.out.println(HORIZONTAL_LINE);
         System.out.println("     Bye. I will miss you!");
         System.out.println(HORIZONTAL_LINE);
     }
 
+    /**
+     * Displays an error message to the user.
+     *
+     * @param message The error message to display.
+     */
     public void showError(String message) {
         System.out.println(HORIZONTAL_LINE);
         System.out.println("     " + message);
@@ -53,6 +76,11 @@ public class Ui {
         System.out.println();
     }
 
+    /**
+     * Displays all tasks in the given task list.
+     *
+     * @param tasks The TaskList to display.
+     */
     public void showTaskList(TaskList tasks) {
         System.out.println(HORIZONTAL_LINE);
         System.out.println("     Here are the tasks in your list:");
@@ -72,6 +100,12 @@ public class Ui {
         System.out.println();
     }
 
+    /**
+     * Displays a confirmation message when a task is added.
+     *
+     * @param task       The task that was added.
+     * @param totalTasks The total number of tasks after adding.
+     */
     public void showTaskAdded(Task task, int totalTasks) {
         System.out.println(HORIZONTAL_LINE);
         System.out.println("     Got it. I've added this task:");
@@ -81,6 +115,12 @@ public class Ui {
         System.out.println();
     }
 
+    /**
+     * Displays a confirmation message when a task is removed.
+     *
+     * @param task           The task that was removed.
+     * @param remainingTasks The number of tasks remaining after removal.
+     */
     public void showTaskRemoved(Task task, int remainingTasks) {
         System.out.println(HORIZONTAL_LINE);
         System.out.println("     Noted. I've removed this task:");
@@ -90,6 +130,12 @@ public class Ui {
         System.out.println();
     }
 
+    /**
+     * Displays a confirmation message when a task's status is changed.
+     *
+     * @param task   The task whose status was changed.
+     * @param isDone True if marked as done, false if marked as not done.
+     */
     public void showTaskMarked(Task task, boolean isDone) {
         System.out.println(HORIZONTAL_LINE);
         if (isDone) {

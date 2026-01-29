@@ -2,6 +2,11 @@ package pallo.command;
 
 import pallo.exception.PalloException;
 
+/**
+ * Parses user input strings into Command objects.
+ * Handles all command formats including simple commands (bye, list) and
+ * commands with arguments (todo, deadline, event, mark, unmark, delete).
+ */
 public class Parser {
     private static final String COMMAND_TODO = "todo";
     private static final String COMMAND_DEADLINE = "deadline";
@@ -16,6 +21,13 @@ public class Parser {
     private static final String DELIMITER_FROM = " /from ";
     private static final String DELIMITER_TO = " /to ";
 
+    /**
+     * Parses a user input string into a Command object.
+     *
+     * @param input The raw user input string.
+     * @return A Command object representing the parsed command.
+     * @throws PalloException If the input is invalid or cannot be parsed.
+     */
     public static Command parseCommand(String input) throws PalloException {
         String trimmedInput = input.trim();
         String lowerInput = trimmedInput.toLowerCase();
@@ -91,6 +103,13 @@ public class Parser {
         return new Command(CommandType.EVENT, new String[]{description, from, to});
     }
 
+    /**
+     * Parses a task number from a string argument.
+     *
+     * @param argument The string containing the task number.
+     * @return The parsed task number as an integer.
+     * @throws PalloException If the argument is empty or not a valid number.
+     */
     public static int parseTaskNumber(String argument) throws PalloException {
         if (argument == null || argument.trim().isEmpty()) {
             throw new PalloException("OH NO!!! Please provide a task number.");

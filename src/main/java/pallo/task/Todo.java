@@ -1,6 +1,15 @@
 package pallo.task;
 
+/**
+ * Represents a simple todo task without any date or time constraints.
+ * A Todo only has a description and completion status.
+ */
 public class Todo extends Task {
+    /**
+     * Constructs a new Todo task with the specified description.
+     *
+     * @param description The description of the todo task.
+     */
     public Todo(String description) {
         super(description);
     }

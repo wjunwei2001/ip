@@ -13,11 +13,22 @@ import pallo.command.CommandType;
 import pallo.command.Parser;
 import pallo.exception.PalloException;
 
+/**
+ * Main class for the Pallo task management application.
+ * Pallo is a command-line based task manager that allows users to create,
+ * manage, and track different types of tasks including todos, deadlines, and events.
+ */
 public class Pallo {
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
 
+    /**
+     * Constructs a new Pallo application instance.
+     * Initializes the UI, storage, and loads existing tasks from the specified file.
+     *
+     * @param filePath The path to the file where tasks are stored.
+     */
     public Pallo(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
@@ -29,6 +40,11 @@ public class Pallo {
         }
     }
 
+    /**
+     * Runs the main application loop.
+     * Displays welcome message, processes user commands until exit,
+     * and saves tasks upon termination.
+     */
     public void run() {
         ui.showWelcome();
         
@@ -143,6 +159,11 @@ public class Pallo {
         }
     }
 
+    /**
+     * Main entry point for the Pallo application.
+     *
+     * @param args Command line arguments (not used).
+     */
     public static void main(String[] args) {
         new Pallo("data/pallo.txt").run();
     }
