@@ -98,6 +98,9 @@ public class Pallo {
             handleEventCommand(command);
             shouldSave = true;
             break;
+        case FIND:
+            handleFindCommand(command);
+            break;
         default:
             throw new PalloException("OH NO!!! I'm sorry, but I don't know what that means :-(");
         }
@@ -149,6 +152,12 @@ public class Pallo {
         Task newTask = new Event(parts[0], parts[1], parts[2]);
         tasks.addTask(newTask);
         ui.showTaskAdded(newTask, tasks.size());
+    }
+
+    private void handleFindCommand(Command command) {
+        String keyword = command.getStringArgument();
+        java.util.ArrayList<Task> matchingTasks = tasks.findTasks(keyword);
+        ui.showFoundTasks(matchingTasks);
     }
 
     private void persistTasks() {

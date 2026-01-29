@@ -16,7 +16,8 @@ public class Parser {
     private static final String COMMAND_DELETE = "delete";
     private static final String COMMAND_LIST = "list";
     private static final String COMMAND_BYE = "bye";
-    
+    private static final String COMMAND_FIND = "find";
+
     private static final String DELIMITER_BY = " /by ";
     private static final String DELIMITER_FROM = " /from ";
     private static final String DELIMITER_TO = " /to ";
@@ -70,6 +71,11 @@ public class Parser {
         } else if (lowerInput.startsWith(COMMAND_EVENT + " ")) {
             String rest = trimmedInput.substring(COMMAND_EVENT.length()).trim();
             return parseEvent(rest);
+        } else if (lowerInput.equals(COMMAND_FIND)) {
+            throw new PalloException("OH NO!!! Please provide a keyword to search for.");
+        } else if (lowerInput.startsWith(COMMAND_FIND + " ")) {
+            String keyword = trimmedInput.substring(COMMAND_FIND.length()).trim();
+            return new Command(CommandType.FIND, keyword);
         } else {
             throw new PalloException("OH NO!!! I'm sorry, but I don't know what that means :-(");
         }
