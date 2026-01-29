@@ -1,12 +1,21 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Pallo {
     private TaskList tasks;
     private Scanner scanner;
+    private Storage storage;
 
     public Pallo() {
-        this.tasks = new TaskList();
+        this.storage = new Storage();
         this.scanner = new Scanner(System.in);
+        try {
+            ArrayList<Task> loadedTasks = storage.loadTasks();
+            this.tasks = new TaskList(loadedTasks);
+        } catch (PalloException e) {
+            Ui.showError(e.getMessage());
+            this.tasks = new TaskList(); // Start with empty list if loading fails
+        }
     }
 
     public void run() {
@@ -18,6 +27,7 @@ public class Pallo {
                 Command command = Parser.parseCommand(input);
                 
                 if (command.getType() == CommandType.BYE) {
+                    persistTasks();
                     Ui.showGoodbye();
                     break;
                 } else {
@@ -32,30 +42,41 @@ public class Pallo {
     }
 
     private void executeCommand(Command command) throws PalloException {
+        boolean shouldSave = false;
         switch (command.getType()) {
         case LIST:
             Ui.showTaskList(tasks);
             break;
         case MARK:
             handleMarkCommand(command);
+            shouldSave = true;
             break;
         case UNMARK:
             handleUnmarkCommand(command);
+            shouldSave = true;
             break;
         case DELETE:
             handleDeleteCommand(command);
+            shouldSave = true;
             break;
         case TODO:
             handleTodoCommand(command);
+            shouldSave = true;
             break;
         case DEADLINE:
             handleDeadlineCommand(command);
+            shouldSave = true;
             break;
         case EVENT:
             handleEventCommand(command);
+            shouldSave = true;
             break;
         default:
             throw new PalloException("OH NO!!! I'm sorry, but I don't know what that means :-(");
+        }
+        
+        if (shouldSave) {
+            persistTasks();
         }
     }
     
@@ -101,6 +122,14 @@ public class Pallo {
         Task newTask = new Event(parts[0], parts[1], parts[2]);
         tasks.addTask(newTask);
         Ui.showTaskAdded(newTask, tasks.size());
+    }
+
+    private void persistTasks() {
+        try {
+            storage.saveTasks(tasks.getAllTasks());
+        } catch (PalloException e) {
+            Ui.showError("Failed to save tasks: " + e.getMessage());
+        }
     }
 
     public static void main(String[] args) {

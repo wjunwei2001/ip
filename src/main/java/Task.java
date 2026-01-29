@@ -31,4 +31,13 @@ public class Task {
     public String toString() {
         return status.getIcon() + " " + description;
     }
+
+    public String toFileString() {
+        int statusValue = (status == TaskStatus.DONE) ? 1 : 0;
+        return getTaskType() + " | " + statusValue + " | " + description;
+    }
+
+    protected String getTaskType() {
+        return "T"; // Default for base Task class, overridden in subclasses
+    }
 }
