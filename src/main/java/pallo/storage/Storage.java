@@ -42,7 +42,7 @@ public class Storage {
      */
     public ArrayList<Task> load() throws PalloException {
         ArrayList<Task> tasks = new ArrayList<>();
-        
+
         // Create directory if it doesn't exist
         try {
             Files.createDirectories(filePath.getParent());
@@ -61,7 +61,7 @@ public class Storage {
             while (scanner.hasNextLine()) {
                 lineNumber++;
                 String line = scanner.nextLine().trim();
-                
+
                 // Skip empty lines
                 if (line.isEmpty()) {
                     continue;
@@ -114,7 +114,7 @@ public class Storage {
 
     private Task parseTaskFromFile(String line) throws PalloException {
         String[] parts = line.split(" \\| ", -1); // -1 to keep empty strings
-        
+
         if (parts.length < 3) {
             throw new PalloException("Invalid file format: insufficient parts");
         }
@@ -128,42 +128,42 @@ public class Storage {
 
         Task task;
         switch (taskType) {
-        case "T":
-            if (parts.length != 3) {
-                throw new PalloException("Invalid Todo format");
-            }
-            task = new Todo(description);
-            break;
-        case "D":
-            if (parts.length != 4) {
-                throw new PalloException("Invalid Deadline format");
-            }
-            String by = parts[3].trim();
-            // Try to parse as LocalDateTime first, fall back to string
-            java.time.LocalDateTime byDateTime = DateParser.parseDateTimeFromFile(by);
-            if (byDateTime != null) {
-                task = new Deadline(description, byDateTime);
-            } else {
-                task = new Deadline(description, by);
-            }
-            break;
-        case "E":
-            if (parts.length != 5) {
-                throw new PalloException("Invalid Event format");
-            }
-            String from = parts[3].trim();
-            String to = parts[4].trim();
-            // Try to parse as LocalDateTime first, fall back to string
-            java.time.LocalDateTime fromDateTime = DateParser.parseDateTimeFromFile(from);
-            java.time.LocalDateTime toDateTime = DateParser.parseDateTimeFromFile(to);
-            if (fromDateTime != null && toDateTime != null) {
-                task = new Event(description, fromDateTime, toDateTime);
-            } else {
-                task = new Event(description, from, to);
-            }
-            break;
-        default:
-            throw new PalloException("Unknown task type: " + taskType);
+            case "T":
+                if (parts.length != 3) {
+                    throw new PalloException("Invalid Todo format");
+                }
+                task = new Todo(description);
+                break;
+            case "D":
+                if (parts.length != 4) {
+                    throw new PalloException("Invalid Deadline format");
+                }
+                String by = parts[3].trim();
+                // Try to parse as LocalDateTime first, fall back to string
+                java.time.LocalDateTime byDateTime = DateParser.parseDateTimeFromFile(by);
+                if (byDateTime != null) {
+                    task = new Deadline(description, byDateTime);
+                } else {
+                    task = new Deadline(description, by);
+                }
+                break;
+            case "E":
+                if (parts.length != 5) {
+                    throw new PalloException("Invalid Event format");
+                }
+                String from = parts[3].trim();
+                String to = parts[4].trim();
+                // Try to parse as LocalDateTime first, fall back to string
+                java.time.LocalDateTime fromDateTime = DateParser.parseDateTimeFromFile(from);
+                java.time.LocalDateTime toDateTime = DateParser.parseDateTimeFromFile(to);
+                if (fromDateTime != null && toDateTime != null) {
+                    task = new Event(description, fromDateTime, toDateTime);
+                } else {
+                    task = new Event(description, from, to);
+                }
+                break;
+            default:
+                throw new PalloException("Unknown task type: " + taskType);
         }
 
         // Set the status

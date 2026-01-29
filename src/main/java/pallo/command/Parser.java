@@ -89,9 +89,10 @@ public class Parser {
         String description = rest.substring(0, byIndex).trim();
         String by = rest.substring(byIndex + DELIMITER_BY.length()).trim();
         if (description.isEmpty() || by.isEmpty()) {
-            throw new PalloException("OH NO!!! Description and date cannot be empty. Use: deadline <description> /by <date>");
+            throw new PalloException(
+                    "OH NO!!! Description and date cannot be empty. Use: deadline <description> /by <date>");
         }
-        return new Command(CommandType.DEADLINE, new String[]{description, by});
+        return new Command(CommandType.DEADLINE, new String[] { description, by });
     }
 
     private static Command parseEvent(String rest) throws PalloException {
@@ -104,9 +105,10 @@ public class Parser {
         String from = rest.substring(fromIndex + DELIMITER_FROM.length(), toIndex).trim();
         String to = rest.substring(toIndex + DELIMITER_TO.length()).trim();
         if (description.isEmpty() || from.isEmpty() || to.isEmpty()) {
-            throw new PalloException("OH NO!!! Description, start time, and end time cannot be empty. Use: event <description> /from <start> /to <end>");
+            throw new PalloException(
+                    "OH NO!!! Description, start time, and end time cannot be empty. Use: event <description> /from <start> /to <end>");
         }
-        return new Command(CommandType.EVENT, new String[]{description, from, to});
+        return new Command(CommandType.EVENT, new String[] { description, from, to });
     }
 
     /**

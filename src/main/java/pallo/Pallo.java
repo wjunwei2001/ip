@@ -47,12 +47,12 @@ public class Pallo {
      */
     public void run() {
         ui.showWelcome();
-        
+
         while (true) {
             try {
                 String input = ui.readCommand();
                 Command command = Parser.parseCommand(input);
-                
+
                 if (command.getType() == CommandType.BYE) {
                     persistTasks();
                     ui.showGoodbye();
@@ -64,52 +64,52 @@ public class Pallo {
                 ui.showError(e.getMessage());
             }
         }
-        
+
         ui.close();
     }
 
     private void executeCommand(Command command) throws PalloException {
         boolean shouldSave = false;
         switch (command.getType()) {
-        case LIST:
-            ui.showTaskList(tasks);
-            break;
-        case MARK:
-            handleMarkCommand(command);
-            shouldSave = true;
-            break;
-        case UNMARK:
-            handleUnmarkCommand(command);
-            shouldSave = true;
-            break;
-        case DELETE:
-            handleDeleteCommand(command);
-            shouldSave = true;
-            break;
-        case TODO:
-            handleTodoCommand(command);
-            shouldSave = true;
-            break;
-        case DEADLINE:
-            handleDeadlineCommand(command);
-            shouldSave = true;
-            break;
-        case EVENT:
-            handleEventCommand(command);
-            shouldSave = true;
-            break;
-        case FIND:
-            handleFindCommand(command);
-            break;
-        default:
-            throw new PalloException("OH NO!!! I'm sorry, but I don't know what that means :-(");
+            case LIST:
+                ui.showTaskList(tasks);
+                break;
+            case MARK:
+                handleMarkCommand(command);
+                shouldSave = true;
+                break;
+            case UNMARK:
+                handleUnmarkCommand(command);
+                shouldSave = true;
+                break;
+            case DELETE:
+                handleDeleteCommand(command);
+                shouldSave = true;
+                break;
+            case TODO:
+                handleTodoCommand(command);
+                shouldSave = true;
+                break;
+            case DEADLINE:
+                handleDeadlineCommand(command);
+                shouldSave = true;
+                break;
+            case EVENT:
+                handleEventCommand(command);
+                shouldSave = true;
+                break;
+            case FIND:
+                handleFindCommand(command);
+                break;
+            default:
+                throw new PalloException("OH NO!!! I'm sorry, but I don't know what that means :-(");
         }
-        
+
         if (shouldSave) {
             persistTasks();
         }
     }
-    
+
     private void handleMarkCommand(Command command) throws PalloException {
         int taskNumber = Parser.parseTaskNumber(command.getStringArgument());
         Task task = tasks.getTask(taskNumber - 1);
