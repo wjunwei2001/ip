@@ -1,6 +1,7 @@
 package pallo.task;
 
 import java.util.ArrayList;
+
 import pallo.exception.PalloException;
 
 /**
@@ -44,7 +45,8 @@ public class TaskList {
      */
     public Task removeTask(int index) throws PalloException {
         if (index < 0 || index >= tasks.size()) {
-            throw new PalloException("OH NO!!! Invalid task number! Please choose a number between 1 and " + tasks.size() + ".");
+            throw new PalloException(
+                    "OH NO!!! Invalid task number! Please choose a number between 1 and " + tasks.size() + ".");
         }
         return tasks.remove(index);
     }
@@ -58,7 +60,8 @@ public class TaskList {
      */
     public Task getTask(int index) throws PalloException {
         if (index < 0 || index >= tasks.size()) {
-            throw new PalloException("OH NO!!! Invalid task number! Please choose a number between 1 and " + tasks.size() + ".");
+            throw new PalloException(
+                    "OH NO!!! Invalid task number! Please choose a number between 1 and " + tasks.size() + ".");
         }
         return tasks.get(index);
     }

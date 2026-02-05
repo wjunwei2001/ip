@@ -1,17 +1,18 @@
 package pallo;
 
 import java.util.ArrayList;
-import pallo.storage.Storage;
-import pallo.task.TaskList;
-import pallo.task.Task;
-import pallo.task.Todo;
-import pallo.task.Deadline;
-import pallo.task.Event;
-import pallo.ui.Ui;
+
 import pallo.command.Command;
 import pallo.command.CommandType;
 import pallo.command.Parser;
 import pallo.exception.PalloException;
+import pallo.storage.Storage;
+import pallo.task.Deadline;
+import pallo.task.Event;
+import pallo.task.Task;
+import pallo.task.TaskList;
+import pallo.task.Todo;
+import pallo.ui.Ui;
 
 /**
  * Main class for the Pallo task management application.
@@ -71,38 +72,38 @@ public class Pallo {
     private void executeCommand(Command command) throws PalloException {
         boolean shouldSave = false;
         switch (command.getType()) {
-            case LIST:
-                ui.showTaskList(tasks);
-                break;
-            case MARK:
-                handleMarkCommand(command);
-                shouldSave = true;
-                break;
-            case UNMARK:
-                handleUnmarkCommand(command);
-                shouldSave = true;
-                break;
-            case DELETE:
-                handleDeleteCommand(command);
-                shouldSave = true;
-                break;
-            case TODO:
-                handleTodoCommand(command);
-                shouldSave = true;
-                break;
-            case DEADLINE:
-                handleDeadlineCommand(command);
-                shouldSave = true;
-                break;
-            case EVENT:
-                handleEventCommand(command);
-                shouldSave = true;
-                break;
-            case FIND:
-                handleFindCommand(command);
-                break;
-            default:
-                throw new PalloException("OH NO!!! I'm sorry, but I don't know what that means :-(");
+        case LIST:
+            ui.showTaskList(tasks);
+            break;
+        case MARK:
+            handleMarkCommand(command);
+            shouldSave = true;
+            break;
+        case UNMARK:
+            handleUnmarkCommand(command);
+            shouldSave = true;
+            break;
+        case DELETE:
+            handleDeleteCommand(command);
+            shouldSave = true;
+            break;
+        case TODO:
+            handleTodoCommand(command);
+            shouldSave = true;
+            break;
+        case DEADLINE:
+            handleDeadlineCommand(command);
+            shouldSave = true;
+            break;
+        case EVENT:
+            handleEventCommand(command);
+            shouldSave = true;
+            break;
+        case FIND:
+            handleFindCommand(command);
+            break;
+        default:
+            throw new PalloException("OH NO!!! I'm sorry, but I don't know what that means :-(");
         }
 
         if (shouldSave) {
@@ -156,7 +157,7 @@ public class Pallo {
 
     private void handleFindCommand(Command command) {
         String keyword = command.getStringArgument();
-        java.util.ArrayList<Task> matchingTasks = tasks.findTasks(keyword);
+        ArrayList<Task> matchingTasks = tasks.findTasks(keyword);
         ui.showFoundTasks(matchingTasks);
     }
 
