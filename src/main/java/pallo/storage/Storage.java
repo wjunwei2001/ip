@@ -6,14 +6,16 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import pallo.exception.PalloException;
+import pallo.task.Deadline;
+import pallo.task.Event;
 import pallo.task.Task;
 import pallo.task.TaskStatus;
 import pallo.task.Todo;
-import pallo.task.Deadline;
-import pallo.task.Event;
-import pallo.exception.PalloException;
 
 /**
  * Handles loading and saving of tasks to a file.
@@ -128,42 +130,42 @@ public class Storage {
 
         Task task;
         switch (taskType) {
-            case "T":
-                if (parts.length != 3) {
-                    throw new PalloException("Invalid Todo format");
-                }
-                task = new Todo(description);
-                break;
-            case "D":
-                if (parts.length != 4) {
-                    throw new PalloException("Invalid Deadline format");
-                }
-                String by = parts[3].trim();
-                // Try to parse as LocalDateTime first, fall back to string
-                java.time.LocalDateTime byDateTime = DateParser.parseDateTimeFromFile(by);
-                if (byDateTime != null) {
-                    task = new Deadline(description, byDateTime);
-                } else {
-                    task = new Deadline(description, by);
-                }
-                break;
-            case "E":
-                if (parts.length != 5) {
-                    throw new PalloException("Invalid Event format");
-                }
-                String from = parts[3].trim();
-                String to = parts[4].trim();
-                // Try to parse as LocalDateTime first, fall back to string
-                java.time.LocalDateTime fromDateTime = DateParser.parseDateTimeFromFile(from);
-                java.time.LocalDateTime toDateTime = DateParser.parseDateTimeFromFile(to);
-                if (fromDateTime != null && toDateTime != null) {
-                    task = new Event(description, fromDateTime, toDateTime);
-                } else {
-                    task = new Event(description, from, to);
-                }
-                break;
-            default:
-                throw new PalloException("Unknown task type: " + taskType);
+        case "T":
+            if (parts.length != 3) {
+                throw new PalloException("Invalid Todo format");
+            }
+            task = new Todo(description);
+            break;
+        case "D":
+            if (parts.length != 4) {
+                throw new PalloException("Invalid Deadline format");
+            }
+            String by = parts[3].trim();
+            // Try to parse as LocalDateTime first, fall back to string
+            LocalDateTime byDateTime = DateParser.parseDateTimeFromFile(by);
+            if (byDateTime != null) {
+                task = new Deadline(description, byDateTime);
+            } else {
+                task = new Deadline(description, by);
+            }
+            break;
+        case "E":
+            if (parts.length != 5) {
+                throw new PalloException("Invalid Event format");
+            }
+            String from = parts[3].trim();
+            String to = parts[4].trim();
+            // Try to parse as LocalDateTime first, fall back to string
+            LocalDateTime fromDateTime = DateParser.parseDateTimeFromFile(from);
+            LocalDateTime toDateTime = DateParser.parseDateTimeFromFile(to);
+            if (fromDateTime != null && toDateTime != null) {
+                task = new Event(description, fromDateTime, toDateTime);
+            } else {
+                task = new Event(description, from, to);
+            }
+            break;
+        default:
+            throw new PalloException("Unknown task type: " + taskType);
         }
 
         // Set the status

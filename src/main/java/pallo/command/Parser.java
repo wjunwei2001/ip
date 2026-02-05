@@ -67,7 +67,8 @@ public class Parser {
             String rest = trimmedInput.substring(COMMAND_DEADLINE.length()).trim();
             return parseDeadline(rest);
         } else if (lowerInput.equals(COMMAND_EVENT)) {
-            throw new PalloException("OH NO!!! Please use the format: event <description> /from <start> /to <end>");
+            throw new PalloException(
+                    "OH NO!!! Please use the format: event <description> /from <start> /to <end>");
         } else if (lowerInput.startsWith(COMMAND_EVENT + " ")) {
             String rest = trimmedInput.substring(COMMAND_EVENT.length()).trim();
             return parseEvent(rest);
@@ -99,14 +100,16 @@ public class Parser {
         int fromIndex = rest.toLowerCase().indexOf(DELIMITER_FROM);
         int toIndex = rest.toLowerCase().indexOf(DELIMITER_TO);
         if (fromIndex == -1 || toIndex == -1 || toIndex <= fromIndex) {
-            throw new PalloException("OH NO!!! Please use the format: event <description> /from <start> /to <end>");
+            throw new PalloException(
+                    "OH NO!!! Please use the format: event <description> /from <start> /to <end>");
         }
         String description = rest.substring(0, fromIndex).trim();
         String from = rest.substring(fromIndex + DELIMITER_FROM.length(), toIndex).trim();
         String to = rest.substring(toIndex + DELIMITER_TO.length()).trim();
         if (description.isEmpty() || from.isEmpty() || to.isEmpty()) {
             throw new PalloException(
-                    "OH NO!!! Description, start time, and end time cannot be empty. Use: event <description> /from <start> /to <end>");
+                    "OH NO!!! Description, start time, and end time cannot be empty."
+                    + " Use: event <description> /from <start> /to <end>");
         }
         return new Command(CommandType.EVENT, new String[] { description, from, to });
     }

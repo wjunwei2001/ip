@@ -1,9 +1,11 @@
 package pallo.ui;
 
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import pallo.exception.PalloException;
 import pallo.task.Task;
 import pallo.task.TaskList;
-import pallo.exception.PalloException;
 
 /**
  * Handles all user interface interactions for the Pallo application.
@@ -29,6 +31,9 @@ public class Ui {
         return scanner.nextLine();
     }
 
+    /**
+     * Closes the scanner resource.
+     */
     public void close() {
         scanner.close();
     }
@@ -65,10 +70,18 @@ public class Ui {
         System.out.println();
     }
 
+    /**
+     * Displays a loading error message.
+     */
     public void showLoadingError() {
         showError("Failed to load tasks. Starting with an empty task list.");
     }
 
+    /**
+     * Displays a message to the user.
+     *
+     * @param message The message to display.
+     */
     public void showMessage(String message) {
         System.out.println(HORIZONTAL_LINE);
         System.out.println("     " + message);
@@ -153,7 +166,7 @@ public class Ui {
      *
      * @param matchingTasks The list of tasks that matched the search.
      */
-    public void showFoundTasks(java.util.ArrayList<Task> matchingTasks) {
+    public void showFoundTasks(ArrayList<Task> matchingTasks) {
         System.out.println(HORIZONTAL_LINE);
         System.out.println("     Here are the matching tasks in your list:");
         if (matchingTasks.isEmpty()) {
