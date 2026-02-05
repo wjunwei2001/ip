@@ -25,6 +25,13 @@ public class Pallo {
     private Ui ui;
 
     /**
+     * Constructs a new Pallo application instance with the default file path.
+     */
+    public Pallo() {
+        this("data/pallo.txt");
+    }
+
+    /**
      * Constructs a new Pallo application instance.
      * Initializes the UI, storage, and loads existing tasks from the specified file.
      *
@@ -167,6 +174,119 @@ public class Pallo {
         } catch (PalloException e) {
             ui.showError("Failed to save tasks: " + e.getMessage());
         }
+    }
+
+    /**
+     * Generates a response for the user's chat message.
+     *
+     * @param input The user's input string.
+     * @return The response string from Pallo.
+     */
+    public String getResponse(String input) {
+        try {
+            Command command = Parser.parseCommand(input);
+            return executeCommandForGui(command);
+        } catch (PalloException e) {
+            return e.getMessage();
+        }
+    }
+
+    private String executeCommandForGui(Command command) throws PalloException {
+        StringBuilder response = new StringBuilder();
+        boolean shouldSave = false;
+
+        switch (command.getType()) {
+        case BYE:
+            persistTasks();
+            response.append("Bye. I will miss you!");
+            break;
+        case LIST:
+            response.append("Here are the tasks in your list:\n");
+            if (tasks.isEmpty()) {
+                response.append("No tasks stored yet.");
+            } else {
+                for (int i = 0; i < tasks.size(); i++) {
+                    response.append((i + 1) + "." + tasks.getTask(i));
+                    if (i < tasks.size() - 1) {
+                        response.append("\n");
+                    }
+                }
+            }
+            break;
+        case MARK:
+            int markNum = Parser.parseTaskNumber(command.getStringArgument());
+            Task markTask = tasks.getTask(markNum - 1);
+            markTask.markAsDone();
+            response.append("Nice! I've marked this task as done:\n  " + markTask);
+            shouldSave = true;
+            break;
+        case UNMARK:
+            int unmarkNum = Parser.parseTaskNumber(command.getStringArgument());
+            Task unmarkTask = tasks.getTask(unmarkNum - 1);
+            unmarkTask.markAsNotDone();
+            response.append("OK, I've marked this task as not done yet:\n  " + unmarkTask);
+            shouldSave = true;
+            break;
+        case DELETE:
+            int deleteNum = Parser.parseTaskNumber(command.getStringArgument());
+            Task removedTask = tasks.removeTask(deleteNum - 1);
+            response.append("Noted. I've removed this task:\n  " + removedTask + "\n");
+            response.append("Now you have " + tasks.size() + " tasks in the list.");
+            shouldSave = true;
+            break;
+        case TODO:
+            String todoDesc = command.getStringArgument();
+            if (todoDesc.isEmpty()) {
+                throw new PalloException(
+                        "OH NO!!! The description of a todo cannot be empty.");
+            }
+            Task newTodo = new Todo(todoDesc);
+            tasks.addTask(newTodo);
+            response.append("Got it. I've added this task:\n  " + newTodo + "\n");
+            response.append("Now you have " + tasks.size() + " tasks in the list.");
+            shouldSave = true;
+            break;
+        case DEADLINE:
+            String[] dlParts = command.getStringArrayArgument();
+            Task newDeadline = new Deadline(dlParts[0], dlParts[1]);
+            tasks.addTask(newDeadline);
+            response.append("Got it. I've added this task:\n  " + newDeadline + "\n");
+            response.append("Now you have " + tasks.size() + " tasks in the list.");
+            shouldSave = true;
+            break;
+        case EVENT:
+            String[] evParts = command.getStringArrayArgument();
+            Task newEvent = new Event(evParts[0], evParts[1], evParts[2]);
+            tasks.addTask(newEvent);
+            response.append("Got it. I've added this task:\n  " + newEvent + "\n");
+            response.append("Now you have " + tasks.size() + " tasks in the list.");
+            shouldSave = true;
+            break;
+        case FIND:
+            String keyword = command.getStringArgument();
+            ArrayList<Task> matches = tasks.findTasks(keyword);
+            response.append("Here are the matching tasks in your list:\n");
+            if (matches.isEmpty()) {
+                response.append("No matching tasks found.");
+            } else {
+                for (int i = 0; i < matches.size(); i++) {
+                    response.append((i + 1) + "." + matches.get(i));
+                    if (i < matches.size() - 1) {
+                        response.append("\n");
+                    }
+                }
+            }
+            break;
+        default:
+            throw new PalloException(
+                    "OH NO!!! I'm sorry, but I don't know what that means :-(");
+        }
+
+        if (shouldSave) {
+            persistTasks();
+        }
+
+        return response.toString();
     }
 
     /**
