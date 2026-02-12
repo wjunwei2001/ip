@@ -1,6 +1,7 @@
 package pallo.task;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import pallo.exception.PalloException;
 
@@ -91,13 +92,9 @@ public class TaskList {
      * @return A list of tasks matching the keyword.
      */
     public ArrayList<Task> findTasks(String keyword) {
-        ArrayList<Task> matchingTasks = new ArrayList<>();
         String lowerKeyword = keyword.toLowerCase();
-        for (Task task : tasks) {
-            if (task.getDescription().toLowerCase().contains(lowerKeyword)) {
-                matchingTasks.add(task);
-            }
-        }
-        return matchingTasks;
+        return tasks.stream()
+                .filter(task -> task.getDescription().toLowerCase().contains(lowerKeyword))
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 }
