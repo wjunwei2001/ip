@@ -85,7 +85,9 @@ public class Ui {
      */
     public void showMessage(String message) {
         System.out.println(HORIZONTAL_LINE);
-        System.out.println("     " + message);
+        for (String line : message.split("\n")) {
+            System.out.println("     " + line);
+        }
         System.out.println(HORIZONTAL_LINE);
         System.out.println();
     }
