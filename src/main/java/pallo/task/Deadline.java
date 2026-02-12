@@ -21,6 +21,7 @@ public class Deadline extends Task {
      */
     public Deadline(String description, String by) {
         super(description);
+        assert by != null : "Deadline date string should not be null";
         this.by = DateParser.parseDateTime(by);
         this.byString = by; // Keep original string
     }
@@ -33,6 +34,7 @@ public class Deadline extends Task {
      */
     public Deadline(String description, LocalDateTime by) {
         super(description);
+        assert by != null : "Deadline LocalDateTime should not be null";
         this.by = by;
         this.byString = null;
     }

@@ -121,6 +121,7 @@ public class Storage {
             throw new PalloException("Invalid file format: insufficient parts");
         }
 
+        assert parts.length >= 3 : "File line should have at least 3 pipe-delimited parts";
         String taskType = parts[0].trim();
         String statusStr = parts[1].trim();
         String description = parts[2].trim();
@@ -168,6 +169,7 @@ public class Storage {
             throw new PalloException("Unknown task type: " + taskType);
         }
 
+        assert task != null : "Parsed task should not be null";
         // Set the status
         if (status == TaskStatus.DONE) {
             task.markAsDone();

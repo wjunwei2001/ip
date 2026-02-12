@@ -150,6 +150,7 @@ public class Pallo {
 
     private void handleDeadlineCommand(Command command) throws PalloException {
         String[] parts = command.getStringArrayArgument();
+        assert parts.length == 2 : "Deadline command should have exactly 2 parts";
         Task newTask = new Deadline(parts[0], parts[1]);
         tasks.addTask(newTask);
         ui.showTaskAdded(newTask, tasks.size());
@@ -157,6 +158,7 @@ public class Pallo {
 
     private void handleEventCommand(Command command) throws PalloException {
         String[] parts = command.getStringArrayArgument();
+        assert parts.length == 3 : "Event command should have exactly 3 parts";
         Task newTask = new Event(parts[0], parts[1], parts[2]);
         tasks.addTask(newTask);
         ui.showTaskAdded(newTask, tasks.size());
