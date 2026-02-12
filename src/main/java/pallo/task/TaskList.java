@@ -33,6 +33,7 @@ public class TaskList {
      * @param task The task to add.
      */
     public void addTask(Task task) {
+        assert task != null : "Task to add should not be null";
         tasks.add(task);
     }
 
@@ -91,6 +92,7 @@ public class TaskList {
      * @return A list of tasks matching the keyword.
      */
     public ArrayList<Task> findTasks(String keyword) {
+        assert keyword != null : "Search keyword should not be null";
         ArrayList<Task> matchingTasks = new ArrayList<>();
         String lowerKeyword = keyword.toLowerCase();
         for (Task task : tasks) {

@@ -93,6 +93,8 @@ public class Parser {
             throw new PalloException(
                     "OH NO!!! Description and date cannot be empty. Use: deadline <description> /by <date>");
         }
+        assert !description.isEmpty() : "Deadline description should not be empty after validation";
+        assert !by.isEmpty() : "Deadline date should not be empty after validation";
         return new Command(CommandType.DEADLINE, new String[] { description, by });
     }
 
@@ -111,6 +113,9 @@ public class Parser {
                     "OH NO!!! Description, start time, and end time cannot be empty."
                     + " Use: event <description> /from <start> /to <end>");
         }
+        assert !description.isEmpty() : "Event description should not be empty after validation";
+        assert !from.isEmpty() : "Event start should not be empty after validation";
+        assert !to.isEmpty() : "Event end should not be empty after validation";
         return new Command(CommandType.EVENT, new String[] { description, from, to });
     }
 

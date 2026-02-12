@@ -24,6 +24,8 @@ public class Event extends Task {
      */
     public Event(String description, String from, String to) {
         super(description);
+        assert from != null : "Event start date string should not be null";
+        assert to != null : "Event end date string should not be null";
         this.from = DateParser.parseDateTime(from);
         this.to = DateParser.parseDateTime(to);
         this.fromString = from; // Keep original string
@@ -39,6 +41,8 @@ public class Event extends Task {
      */
     public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description);
+        assert from != null : "Event start LocalDateTime should not be null";
+        assert to != null : "Event end LocalDateTime should not be null";
         this.from = from;
         this.to = to;
         this.fromString = null;
