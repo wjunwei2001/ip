@@ -2,8 +2,9 @@ package pallo.ui;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-import pallo.exception.PalloException;
 import pallo.task.Task;
 import pallo.task.TaskList;
 
@@ -102,14 +103,11 @@ public class Ui {
         if (tasks.isEmpty()) {
             System.out.println("     No tasks stored yet.");
         } else {
-            for (int i = 0; i < tasks.size(); i++) {
-                try {
-                    System.out.println("     " + (i + 1) + "." + tasks.getTask(i));
-                } catch (PalloException e) {
-                    // Should not happen, but handle gracefully
-                    showError(e.getMessage());
-                }
-            }
+            ArrayList<Task> allTasks = tasks.getAllTasks();
+            String formatted = IntStream.range(0, allTasks.size())
+                    .mapToObj(i -> "     " + (i + 1) + "." + allTasks.get(i))
+                    .collect(Collectors.joining("\n"));
+            System.out.println(formatted);
         }
         System.out.println(HORIZONTAL_LINE);
         System.out.println();
@@ -174,9 +172,10 @@ public class Ui {
         if (matchingTasks.isEmpty()) {
             System.out.println("     No matching tasks found.");
         } else {
-            for (int i = 0; i < matchingTasks.size(); i++) {
-                System.out.println("     " + (i + 1) + "." + matchingTasks.get(i));
-            }
+            String formatted = IntStream.range(0, matchingTasks.size())
+                    .mapToObj(i -> "     " + (i + 1) + "." + matchingTasks.get(i))
+                    .collect(Collectors.joining("\n"));
+            System.out.println(formatted);
         }
         System.out.println(HORIZONTAL_LINE);
         System.out.println();
