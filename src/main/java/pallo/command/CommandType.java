@@ -13,5 +13,6 @@ public enum CommandType {
     TODO,
     DEADLINE,
     EVENT,
-    FIND
+    FIND,
+    REMIND
 }

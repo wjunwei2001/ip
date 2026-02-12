@@ -1,6 +1,8 @@
 package pallo.task;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 
 import pallo.exception.PalloException;
@@ -92,6 +94,39 @@ public class TaskList {
      * @param keyword The keyword to search for in task descriptions.
      * @return A list of tasks matching the keyword.
      */
+    /**
+     * Returns tasks with dates falling within the next specified number of days.
+     * Includes Deadline tasks whose due date and Event tasks whose start date
+     * fall between now and now + days. Results are sorted by date ascending.
+     *
+     * @param days The number of days to look ahead.
+     * @return A list of upcoming tasks sorted by date.
+     */
+    public ArrayList<Task> getUpcomingTasks(int days) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime cutoff = now.plusDays(days);
+
+        return tasks.stream()
+                .filter(task -> {
+                    if (task instanceof Deadline) {
+                        LocalDateTime by = ((Deadline) task).getBy();
+                        return by != null && !by.isBefore(now) && !by.isAfter(cutoff);
+                    } else if (task instanceof Event) {
+                        LocalDateTime from = ((Event) task).getFrom();
+                        return from != null && !from.isBefore(now) && !from.isAfter(cutoff);
+                    }
+                    return false;
+                })
+                .sorted(Comparator.comparing(task -> {
+                    if (task instanceof Deadline) {
+                        return ((Deadline) task).getBy();
+                    } else {
+                        return ((Event) task).getFrom();
+                    }
+                }))
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
     public ArrayList<Task> findTasks(String keyword) {
         assert keyword != null : "Search keyword should not be null";
         ArrayList<Task> matchingTasks = new ArrayList<>();

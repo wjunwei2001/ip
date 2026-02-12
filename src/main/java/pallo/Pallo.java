@@ -113,6 +113,9 @@ public class Pallo {
         case FIND:
             response = handleFindCommand(command);
             break;
+        case REMIND:
+            response = handleRemindCommand();
+            break;
         default:
             throw new PalloException("OH NO!!! I'm sorry, but I don't know what that means :-(");
         }
@@ -181,6 +184,19 @@ public class Pallo {
         tasks.addTask(newTask);
         return "Got it. I've added this task:\n  " + newTask
                 + "\nNow you have " + tasks.size() + " tasks in the list.";
+    }
+
+    private String handleRemindCommand() {
+        ArrayList<Task> upcomingTasks = tasks.getUpcomingTasks(7);
+        StringBuilder response = new StringBuilder("Here are your upcoming reminders (next 7 days):");
+        if (upcomingTasks.isEmpty()) {
+            response.append("\nNo upcoming tasks.");
+        } else {
+            for (int i = 0; i < upcomingTasks.size(); i++) {
+                response.append("\n" + (i + 1) + "." + upcomingTasks.get(i));
+            }
+        }
+        return response.toString();
     }
 
     private String handleFindCommand(Command command) {
