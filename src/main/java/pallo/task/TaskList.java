@@ -88,13 +88,6 @@ public class TaskList {
     }
 
     /**
-     * Finds all tasks whose descriptions contain the given keyword.
-     * The search is case-insensitive.
-     *
-     * @param keyword The keyword to search for in task descriptions.
-     * @return A list of tasks matching the keyword.
-     */
-    /**
      * Returns tasks with dates falling within the next specified number of days.
      * Includes Deadline tasks whose due date and Event tasks whose start date
      * fall between now and now + days. Results are sorted by date ascending.
@@ -127,6 +120,13 @@ public class TaskList {
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
+    /**
+     * Finds all tasks whose descriptions contain the given keyword.
+     * The search is case-insensitive.
+     *
+     * @param keyword The keyword to search for in task descriptions.
+     * @return A list of tasks matching the keyword.
+     */
     public ArrayList<Task> findTasks(String keyword) {
         assert keyword != null : "Search keyword should not be null";
         ArrayList<Task> matchingTasks = new ArrayList<>();

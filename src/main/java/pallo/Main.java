@@ -21,8 +21,11 @@ public class Main extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
+            scene.getStylesheets().add(Main.class.getResource("/view/styles.css").toExternalForm());
             stage.setTitle("Pallo");
             stage.setScene(scene);
+            stage.setMinWidth(300);
+            stage.setMinHeight(400);
             fxmlLoader.<MainWindow>getController().setPallo(pallo);
             stage.show();
         } catch (IOException e) {
