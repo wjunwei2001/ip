@@ -7,7 +7,7 @@ Pallo is a task management chatbot that helps you keep track of your todos, dead
 ## Quick Start
 
 1. Ensure you have Java 17 or above installed.
-2. Download the latest `.jar` file from the [Releases](../../releases) page.
+2. Download the latest `.jar` file from the **Releases** section on the project's GitHub page.
 3. Run the app with `java -jar pallo.jar`.
 4. Type a command in the input box and press Enter or click **Send**.
 
